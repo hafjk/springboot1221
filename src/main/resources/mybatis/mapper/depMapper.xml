@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shengsiyuan.springboot1221.mapper.DepMapper">
+    <!--//    通过id查找dep-->
+    <!--public Dep selectDepById(Integer id);-->
+    <select id="selectDepById" parameterType="int" resultType="com.shengsiyuan.springboot1221.bean.Dep">
+        select * from dep where id=#{id}
+    </select>
+
+    <!--//    查找全部dep-->
+    <!--public List<Dep> selectAllDep();-->
+    <select id="selectAllDep" resultType="com.shengsiyuan.springboot1221.bean.Dep">
+        select * from dep
+    </select>
+
+    <!--//    根据id更新dep-->
+    <!--public void updateDep(Dep dep);-->
+    <update id="updateDep" parameterType="com.shengsiyuan.springboot1221.bean.Dep">
+        update dep set deptname=#{deptname},locadd=#{locadd},num=#{num} where id=#{id}
+    </update>
+
+
+    <!--//    根据id删除dep-->
+    <!--public void deleteDepById(Integer id);-->
+    <delete id="deleteDepById" parameterType="int">
+        delete from dep where id=#{id}
+    </delete>
+
+
+    <!--//    新增dep-->
+    <!--public void InsertDep(Dep dep);-->
+    <insert id="insertDep" parameterType="com.shengsiyuan.springboot1221.bean.Dep">
+        insert into dep(deptname,locadd,num) values (#{deptname},#{locadd},#{num})
+    </insert>
+
+    <!--//    通过id查找部门的每个员工信息-->
+    <!--public DepVo selectDepEmp(Integer id);-->
+    <select id="selectDepEmp" parameterType="int" resultMap="selectDepEmpMap">
+        select   dep.*,emp.id emp_id,emp.*
+        from dep
+        inner join emp on
+        dep.id=emp.deptid
+        where dep.id =#{id}
+    </select>
+    <resultMap id="selectDepEmpMap" type="com.shengsiyuan.springboot1221.bean.DepVo" autoMapping="true">
+        <id column="id" property="id"></id>
+        <collection property="EmpList" ofType="com.shengsiyuan.springboot1221.bean.Emp" autoMapping="true">
+            <id column="emp_id" property="id"></id>
+        </collection>
+    </resultMap>
+
+
+</mapper>
+
+
+
+
+
+
